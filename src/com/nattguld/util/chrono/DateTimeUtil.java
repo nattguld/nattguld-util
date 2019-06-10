@@ -23,6 +23,33 @@ public class DateTimeUtil {
 
 	
 	/**
+	 * Retrieves the current time as string.
+	 * 
+	 * @return The time.
+	 */
+	public static String getCurrentTime() {
+		return formatTime(new DateTime().getLocalDateTime());
+	}
+	
+	/**
+	 * Retrieves the current date as string.
+	 * 
+	 * @return The date.
+	 */
+	public static String getCurrentDate() {
+		return formatDate(new DateTime().getLocalDateTime());
+	}
+	
+	/**
+	 * Retrieves the current date-time as string.
+	 * 
+	 * @return The date-time.
+	 */
+	public static String getCurrentDateTime() {
+		return formatDateTime(new DateTime().getLocalDateTime());
+	}
+	
+	/**
 	 * Formats a local-date-time to a time string.
 	 * 
 	 * @param ldt The local-date-time.
