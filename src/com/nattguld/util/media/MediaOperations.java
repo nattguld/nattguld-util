@@ -73,7 +73,7 @@ public class MediaOperations {
 			g2d.drawImage(tmp, 0, 0, null);
 			g2d.dispose();
 			
-			ImageIO.write(resized, "png", output);
+			ImageIO.write(resized, FileOperations.getExtension(original), output);
 			
 			return output;
 		

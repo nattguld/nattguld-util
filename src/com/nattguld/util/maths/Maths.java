@@ -20,7 +20,7 @@ public class Maths {
 	 * 
 	 * @return The float value.
 	 */
-	public static float parseDouble(String value, float defaultValue) {
+	public static float parseFloat(String value, float defaultValue) {
 		try {
 			return Float.parseFloat(value);
 		} catch (NumberFormatException ex) {
