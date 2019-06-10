@@ -33,22 +33,23 @@ DateTime dt = new DateTime(long ms);
 DateTime dt = new DateTime(long ms, ZoneId zoneId);
 DateTime dt = new DateTime(LocalDateTime ldt, ZoneDateTime zdt);
 DateTime dt = new DateTime(String input, String format);
+//dt.isBefore(DateTime dt), dt.isAfter(DateTime dt), dt.isBetween(DT from, DT to), dt.isInRange(params), dt.getMilliseconds(), dt.getUnixMilliseconds(), dt.getSecond(), dt.getMinute(), dt.getHour(), dt.getDay(), dt.getMonth(), dt.getYear(), dt.getPeriodTillToday(), dt.isSameDay(DT), dt.isToday()
 
-String s = getCurrentTime(); //Locale format
-String s = getCurrentDate(); //Locale format
-String s = getCurrentDateTime(); //Locale format
-String s = formatTime(LocalDateTime ldt, String timeFormat);
-String s = formatDate(LocalDateTime ldt, String dateFormat);
-String s = formatDateTime(LocalDateTime ldt, String dateFormat, String timeFormat, Delimeter delimeter);
-String s = formatTime(LocalDateTime ldt);
-String s = formatDate(LocalDateTime ldt);
-String s = formatDateTime(LocalDateTime ldt);
+String s = DateTimeUtil.getCurrentTime(); //Locale format
+String s = DateTimeUtil.getCurrentDate(); //Locale format
+String s = DateTimeUtil.getCurrentDateTime(); //Locale format
+String s = DateTimeUtil.formatTime(LocalDateTime ldt, String timeFormat);
+String s = DateTimeUtil.formatDate(LocalDateTime ldt, String dateFormat);
+String s = DateTimeUtil.formatDateTime(LocalDateTime ldt, String dateFormat, String timeFormat, Delimeter delimeter);
+String s = DateTimeUtil.formatTime(LocalDateTime ldt);
+String s = DateTimeUtil.formatDate(LocalDateTime ldt);
+String s = DateTimeUtil.formatDateTime(LocalDateTime ldt);
 
-Clock clock = getDefaultClock();
-Clock clock = getClockForCountry(Country country);
+Clock clock = DateTimeUtil.getDefaultClock();
+Clock clock = DateTimeUtil.getClockForCountry(Country country);
 
-DateFormat getDefaultDateFormat();
-DateFormat getDateFormatForCountry(Country country);
+DateFormat df = DateTimeUtil.getDefaultDateFormat();
+DateFormat df = DateTimeUtil.getDateFormatForCountry(Country country);
 
 //Formats can be built with the DateFormat & TimeFormat enum
 DateFormat.getFormat(Delimeter delimeter);
@@ -95,7 +96,7 @@ boolean result = a.has(String key);
 Object result = a.get(String key);
 Object result = a.get(String key, Object defaultValue);
 String result = a.getAsString(String key, String defaultValue);
-///getAsBoolean(params), getAsChar(params), getAsByte(params), getAsFloat(params), getAsDouble(params), getAsInt(params), getAsLong(params)
+//getAsBoolean(params), getAsChar(params), getAsByte(params), getAsFloat(params), getAsDouble(params), getAsInt(params), getAsLong(params)
 
 Container<T> container = new Container<T>();
 container.add(T element);
@@ -116,7 +117,8 @@ V value = kvp.getValue(); //getValueAsString(), getValueAsChar(), ...
 ```java
 String hash = Hasher.md5(File f);
 String hash = Hasher.md5(String input);
-String hash = Hasher.
+String hash = Hasher
+//TODO
 ```
 
 ### Locale
