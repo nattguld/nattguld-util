@@ -114,9 +114,9 @@ public class DateTime {
 	 * 
 	 * @param pattern The pattern. (yyyy-MM-dd HH:mm:ss:sss)
 	 */
-	public DateTime(String input, String pattern) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-		this.ldt = pattern.contains("HH:mm:ss") ? LocalDateTime.parse(input, formatter) : LocalDate.parse(input, formatter).atStartOfDay();
+	public DateTime(String input, String format) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+		this.ldt = format.contains("HH:mm:ss") ? LocalDateTime.parse(input, formatter) : LocalDate.parse(input, formatter).atStartOfDay();
 		this.zdt = ldt.atZone(ZoneId.systemDefault());
 	}
 	
@@ -136,18 +136,6 @@ public class DateTime {
 	 */
 	public ZonedDateTime getZonedDateTime() {
 		return zdt;
-	}
-	
-	/**
-	 * Retrieves the formatted string of a pattern.
-	 * 
-	 * @param pattern The pattern.
-	 * 
-	 * @return The formatted string.
-	 */
-	public String format(String pattern) { //(yyyy-MM-dd HH:mm:ss:sss)
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-		return getLocalDateTime().format(formatter);
 	}
 	
 	/**
@@ -301,30 +289,9 @@ public class DateTime {
 		return isSameDay(new DateTime());
 	}
 	
-	/**
-	 * Retrieves the string notation of the date/time.
-	 * 
-	 * @return The string notation.
-	 */
-	public String getAsString() {
-		return getAsString(true);
-	}
-	
-	/**
-	 * Retrieves the string notation of the date/time.
-	 * 
-	 * @param full Whether the full date and time should be given or not.
-	 * 
-	 * @return The string notation.
-	 */
-	public String getAsString(boolean full) {
-		DateTimeFormatter formatter = full ? DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss") : DateTimeFormatter.ofPattern("dd-MM-yyyy");
-		return getLocalDateTime().format(formatter);
-	}
-	
 	@Override
 	public String toString() {
-		return getAsString(false);
+		return DateTimeUtil.formatDateTime(ldt);
 	}
 
 }
