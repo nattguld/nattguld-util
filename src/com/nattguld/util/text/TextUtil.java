@@ -5,6 +5,7 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -64,6 +65,17 @@ public class TextUtil {
 	 */
 	public static final String NEW_ENTER_LINE = "\r\n";
 	
+	
+	/**
+	 * Retrieves a string avoiding it to be null.
+	 * 
+	 * @param input The input.
+	 * 
+	 * @return The String.
+	 */
+	public static String getAsNonNull(String input) {
+		return Objects.isNull(input) ? "" : input;
+	}
 	
 	/**
 	 * Copies an input string to the clipboard.
