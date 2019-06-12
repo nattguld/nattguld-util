@@ -8,28 +8,28 @@ import com.nattguld.util.generics.kvps.KeyValuePair;
  *
  */
 
-public class StringNameValuePair extends KeyValuePair<String, String> {
+public class ObjectKeyValuePair extends KeyValuePair<Object, Object> {
 
 	
 	/**
-	 * Creates a string key-value pair.
+	 * Creates a new key value pair.
 	 * 
 	 * @param key The key.
 	 * 
 	 * @param value The value.
 	 */
-	public StringNameValuePair(String key, String value) {
+	public ObjectKeyValuePair(Object key, Object value) {
 		super(key, value);
 	}
 	
 	@Override
-	public String getKey() {
+	public Object getKey() {
 		return super.getKey();
 	}
 	
 	@Override
-	public String getValue() {
+	public Object getValue() {
 		return super.getValue();
 	}
-
+ 
 }
