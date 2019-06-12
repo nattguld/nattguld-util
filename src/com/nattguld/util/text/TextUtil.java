@@ -78,6 +78,24 @@ public class TextUtil {
 	}
 	
 	/**
+	 * Extracts any digits from a given input string.
+	 * 
+	 * @param input The input.
+	 * 
+	 * @return The digits.
+	 */
+	public static String extractDigits(String input) {
+		Pattern p = Pattern.compile("\\d+");
+		Matcher m = p.matcher(input);
+		StringBuilder digits = new StringBuilder();
+		
+		while (m.find()) {
+			digits.append(m.group());
+		}
+		return digits.toString();
+	}
+	
+	/**
 	 * Copies an input string to the clipboard.
 	 * 
 	 * @param input The input.
