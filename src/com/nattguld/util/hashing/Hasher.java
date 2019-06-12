@@ -6,7 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Objects;
+import java.util.Base64;
 
 import com.nattguld.util.Converter;
 
@@ -16,134 +16,200 @@ import com.nattguld.util.Converter;
  *
  */
 
-public abstract class Hasher {
+public class Hasher {
 	
 	
 	/**
-	 * Retrieves the md5 hash of a file.
+	 * Retrieves a base64 encoded hash.
 	 * 
-	 * @param f The file.
+	 * @param input The input.
 	 * 
 	 * @return The hash.
 	 */
-	public static String md5(File f) {
-		return hash(f, "MD5");
+	public static String base64(String input) {
+		try {
+			return base64(input.getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	/**
-	 * Retrieves the md5 hash of a string.
+	 * Retrieves a base64 encoded hash.
 	 * 
-	 * @param input The string.
+	 * @param input The input.
 	 * 
 	 * @return The hash.
 	 */
-	public static String md5(String input) {
-		return hash(input, "MD5");
+	public static String base64(File input) {
+		try {
+			return base64(Files.readAllBytes(input.toPath()));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	/**
-	 * Retrieves the sha512 hash of a file.
+	 * Retrieves a base64 encoded hash.
 	 * 
-	 * @param f The file.
+	 * @param input The input.
 	 * 
 	 * @return The hash.
 	 */
-	public static String sha512(File f) {
-		return hash(f, "SHA-512");
+	public static String base64(byte[] input) {
+		return Base64.getEncoder().encodeToString(input);
 	}
 	
 	/**
-	 * Retrieves the sha512 hash of a string.
+	 * Retrieves an md5 hash.
 	 * 
-	 * @param input The string.
+	 * @param input The input.
 	 * 
 	 * @return The hash.
 	 */
-	public static String sha512(String input) {
-		return hash(input, "SHA-512");
+	public static String sha256(File input) {
+		try {
+			return sha256(Files.readAllBytes(input.toPath()));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	/**
-	 * Retrieves the sha256 hash of a file.
+	 * Retrieves an md5 hash.
 	 * 
-	 * @param f The file.
-	 * 
-	 * @return The hash.
-	 */
-	public static String sha256(File f) {
-		return hash(f, "SHA-256");
-	}
-	
-	/**
-	 * Retrieves the sha256 hash of a string.
-	 * 
-	 * @param input The string.
+	 * @param input The input.
 	 * 
 	 * @return The hash.
 	 */
 	public static String sha256(String input) {
+		try {
+			return sha256(input.getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	/**
+	 * Retrieves an md5 hash.
+	 * 
+	 * @param input The input.
+	 * 
+	 * @return The hash.
+	 */
+	public static String sha256(byte[] input) {
 		return hash(input, "SHA-256");
 	}
 	
 	/**
-	 * Retrieves the hash of a file.
+	 * Retrieves an md5 hash.
 	 * 
-	 * @param f The file.
-	 * 
-	 * @param algorithm The algorithm.
+	 * @param input The input.
 	 * 
 	 * @return The hash.
 	 */
-	public static String hash(File f, String algorithm) {
-		if (Objects.isNull(f) || !f.exists()) {
-			return f.getName() + " doesn't exist";
-		}
+	public static String sha512(File input) {
 		try {
-			return hash(Files.readAllBytes(f.toPath()), algorithm);
-			
-		} catch (IOException ex) {
-			ex.printStackTrace();
-			return "Failed to read file bytes";
+			return sha512(Files.readAllBytes(input.toPath()));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 	
 	/**
-	 * Retrieves the hash of a string.
+	 * Retrieves an md5 hash.
 	 * 
-	 * @param input The string.
-	 * 
-	 * @param algorithm The algorithm.
+	 * @param input The input.
 	 * 
 	 * @return The hash.
 	 */
-	public static String hash(String input, String algorithm) {
+	public static String sha512(String input) {
 		try {
-			return hash(input.getBytes("UTF-8"), algorithm);
-			
-		} catch (UnsupportedEncodingException ex) {
-			ex.printStackTrace();
-			return "Unsupported encoding";
+			return sha512(input.getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 	
 	/**
-	 * Hashes given bytes with a given algorithm.
+	 * Retrieves an md5 hash.
 	 * 
-	 * @param bytes The bytes.
+	 * @param input The input.
+	 * 
+	 * @return The hash.
+	 */
+	public static String sha512(byte[] input) {
+		return hash(input, "SHA-512");
+	}
+	
+	/**
+	 * Retrieves an md5 hash.
+	 * 
+	 * @param input The input.
+	 * 
+	 * @return The hash.
+	 */
+	public static String md5(File input) {
+		try {
+			return md5(Files.readAllBytes(input.toPath()));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	/**
+	 * Retrieves an md5 hash.
+	 * 
+	 * @param input The input.
+	 * 
+	 * @return The hash.
+	 */
+	public static String md5(String input) {
+		try {
+			return md5(input.getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	/**
+	 * Retrieves an md5 hash.
+	 * 
+	 * @param input The input.
+	 * 
+	 * @return The hash.
+	 */
+	public static String md5(byte[] input) {
+		return hash(input, "MD5");
+	}
+	
+	/**
+	 * Hashes a given input with a given algorithm.
+	 * 
+	 * @param input The input.
 	 * 
 	 * @param algorithm The algorithm.
 	 * 
-	 * @return The hashed string.
+	 * @return The hashes bytes.
 	 */
-	public static String hash(byte[] bytes, String algorithm) {
+	public static String hash(byte[] input, String algorithm) {
 		try {
-			byte[] hash = MessageDigest.getInstance(algorithm).digest(bytes);
+			byte[] hash = MessageDigest.getInstance(algorithm).digest(input);
 			
-			return Converter.bytesToHex(hash);
+	        return Converter.bytesToHex(hash);
 			
 		} catch (NoSuchAlgorithmException ex) {
-			return "No such algorythm";
+			ex.printStackTrace();
 		}
+		return null;
 	}
 
 }
