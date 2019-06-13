@@ -1,6 +1,6 @@
 package com.nattguld.util.chrono.format;
 
-import com.nattguld.util.text.Delimeter;
+import com.nattguld.util.text.Delimiter;
 
 /**
  * 
@@ -42,13 +42,13 @@ public enum DateFormat {
 	 * 
 	 * @return The format.
 	 */
-	public String getFormat(Delimeter delimeter) {
+	public String getFormat(Delimiter delimeter) {
 		return format.replace("-", delimeter.getCharacter());
 	}
 	
 	@Override
 	public String toString() {
-		return getFormat(Delimeter.MINUS);
+		return getFormat(Delimiter.MINUS);
 	}
 	
 }

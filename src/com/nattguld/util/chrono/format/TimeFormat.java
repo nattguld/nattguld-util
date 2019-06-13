@@ -1,7 +1,7 @@
 package com.nattguld.util.chrono.format;
 
 import com.nattguld.util.chrono.Clock;
-import com.nattguld.util.text.Delimeter;
+import com.nattguld.util.text.Delimiter;
 
 /**
  * 
@@ -40,7 +40,7 @@ public enum TimeFormat {
 	 * 
 	 * @return The format.
 	 */
-	public String getFormat(Clock clock, Delimeter delimeter) {
+	public String getFormat(Clock clock, Delimiter delimeter) {
 		String buildFormat = format.replace("-", delimeter.getCharacter());
 		
 		if (clock == Clock.HOUR_12) {
@@ -51,7 +51,7 @@ public enum TimeFormat {
 	
 	@Override
 	public String toString() {
-		return getFormat(Clock.HOUR_24, Delimeter.MINUS);
+		return getFormat(Clock.HOUR_24, Delimiter.MINUS);
 	}
 	
 }

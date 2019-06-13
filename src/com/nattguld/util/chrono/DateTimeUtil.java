@@ -11,7 +11,7 @@ import java.util.Objects;
 import com.nattguld.util.chrono.format.DateFormat;
 import com.nattguld.util.chrono.format.TimeFormat;
 import com.nattguld.util.locale.Country;
-import com.nattguld.util.text.Delimeter;
+import com.nattguld.util.text.Delimiter;
 
 /**
  * 
@@ -88,7 +88,7 @@ public class DateTimeUtil {
 	 * 
 	 * @return The formatted string.
 	 */
-	public static String formatDateTime(LocalDateTime ldt, String dateFormat, String timeFormat, Delimeter delimeter) {
+	public static String formatDateTime(LocalDateTime ldt, String dateFormat, String timeFormat, Delimiter delimeter) {
 		return ldt.format(DateTimeFormatter.ofPattern(dateFormat + delimeter.getCharacter() + timeFormat));
 	}
 	
@@ -100,7 +100,7 @@ public class DateTimeUtil {
 	 * @return The formatted string.
 	 */
 	public static String formatTime(LocalDateTime ldt) {
-		return formatDate(ldt, TimeFormat.HH_MM_SS.getFormat(getDefaultClock(), Delimeter.COLON));
+		return formatDate(ldt, TimeFormat.HH_MM_SS.getFormat(getDefaultClock(), Delimiter.COLON));
 	}
 	
 	/**
@@ -111,7 +111,7 @@ public class DateTimeUtil {
 	 * @return The formatted string.
 	 */
 	public static String formatDate(LocalDateTime ldt) {
-		return formatDate(ldt, getDefaultDateFormat().getFormat(Delimeter.MINUS));
+		return formatDate(ldt, getDefaultDateFormat().getFormat(Delimiter.MINUS));
 	}
 	
 	/**
@@ -122,8 +122,8 @@ public class DateTimeUtil {
 	 * @return The formatted string.
 	 */
 	public static String formatDateTime(LocalDateTime ldt) {
-		return formatDateTime(ldt, getDefaultDateFormat().getFormat(Delimeter.MINUS)
-				, TimeFormat.HH_MM_SS.getFormat(getDefaultClock(), Delimeter.COLON), Delimeter.SPACE);
+		return formatDateTime(ldt, getDefaultDateFormat().getFormat(Delimiter.MINUS)
+				, TimeFormat.HH_MM_SS.getFormat(getDefaultClock(), Delimiter.COLON), Delimiter.SPACE);
 	}
 	
 	/**
@@ -268,7 +268,7 @@ public class DateTimeUtil {
 	 * 
 	 * @return The local-date-time.
 	 */
-	public static LocalDateTime parseDateTime(String input, String dateFormat, String timeFormat, Delimeter dateTimeDelimeter) {
+	public static LocalDateTime parseDateTime(String input, String dateFormat, String timeFormat, Delimiter dateTimeDelimeter) {
 		String[] parts = input.split(dateTimeDelimeter.getCharacter());
 		
 		if (Objects.isNull(parts) || parts.length <= 0) {

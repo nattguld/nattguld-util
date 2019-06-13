@@ -6,7 +6,7 @@ package com.nattguld.util.text;
  *
  */
 
-public enum Delimeter {
+public enum Delimiter {
 	
 	ANGLE_BRACKET_OPEN("<"),
 	ANGLE_BRACKET_CLOSE(">"),
@@ -49,7 +49,7 @@ public enum Delimeter {
 	 * 
 	 * @param character The character.
 	 */
-	private Delimeter(String character) {
+	private Delimiter(String character) {
 		this.character = character;
 	}
 	
