@@ -1,11 +1,13 @@
 package com.nattguld.util.media;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
@@ -18,7 +20,30 @@ import com.nattguld.util.files.FileOperations;
  */
 
 public class MediaOperations {
+
 	
+	/**
+	 * Retrieves the font from a file.
+	 * 
+	 * @param fontFile The font file.
+	 * 
+	 * @param fontSize The font size.
+	 */
+	public static Font loadFontFromFile(File fontFile, int fontSize) {
+		try {
+			InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream(fontFile.getAbsolutePath());
+			Font font = Font.createFont(Font.TRUETYPE_FONT, stream).deriveFont(fontSize);
+			return font;
+			
+		} catch (FontFormatException ex) {
+			ex.printStackTrace();
+			
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		System.err.println("Failed to load font, using default font.");
+		return new Font(Font.SANS_SERIF, Font.PLAIN, fontSize);
+	}
 	
     /**
      * Converts a png file to jpg.
@@ -51,37 +76,56 @@ public class MediaOperations {
 	}
 	
 	/**
-	 * Resizes an image and writes it to a given file.
+	 * Retrieves the scaled dimension for a given width and height.
 	 * 
-	 * @param original The original file.
+	 * @param originalWidth The original width.
 	 * 
-	 * @param output The output file.
+	 * @param originalHeight The original height.
 	 * 
-	 * @param x The x coordinate.
-	 * 
-	 * @param y The y coordinate.
-	 * 
-	 * @return The output file.
+	 * @return The scaled dimension.
 	 */
-	public static File resizeImage(File original, File output, int x, int y) {
-		try {
-			BufferedImage image = ImageIO.read(original);
-			
-			Image tmp = image.getScaledInstance(x, y, Image.SCALE_SMOOTH);
-			BufferedImage resized = new BufferedImage(x, y, BufferedImage.TYPE_INT_ARGB);
-			Graphics2D g2d = resized.createGraphics();
-			g2d.drawImage(tmp, 0, 0, null);
-			g2d.dispose();
-			
-			ImageIO.write(resized, FileOperations.getExtension(original), output);
-			
-			return output;
+	public static Dimension getScaledDimension(Dimension original, Dimension targetDimension) {
+		Dimension scaledDimension = new Dimension((int)targetDimension.getWidth(), (int)targetDimension.getHeight());
+
+		final double originalRatio = original.getWidth() / original.getHeight();
+		final double targetRatio = targetDimension.getWidth() / targetDimension.getHeight();
 		
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			System.err.println("Exception occurred while resizing " + original.getName());
-			return original;
+		if (originalRatio < targetRatio) {
+			int newWidth = (int)Math.round(targetDimension.getWidth());
+			int newHeight = (int)Math.round((targetDimension.getWidth() / original.getWidth()) * original.getHeight());
+			scaledDimension = new Dimension(newWidth, newHeight);
+		} else {
+			int newWidth = (int)Math.round((targetDimension.getHeight() / original.getHeight()) * original.getWidth());
+			int newHeight = (int)Math.round(targetDimension.getHeight());
+			scaledDimension = new Dimension(newWidth, newHeight);
 		}
+		return scaledDimension;
+	}
+	
+	/**
+	 * Retrieves the cropped dimension for a given dimension to fit the aspect ratio.
+	 * 
+	 * @param original The original dimension.
+	 * 
+	 * @param aspectRatio The target aspect ratio.
+	 * 
+	 * @return The cropped dimension to fit the aspect ratio.
+	 */
+	public static Dimension getCroppedDimension(Dimension original, AspectRatio aspectRatio) {
+		Dimension croppedDimension = new Dimension((int)original.getWidth(), (int)original.getHeight());
+
+		final double originalRatio = original.getWidth() / original.getHeight();
+
+		if (originalRatio < aspectRatio.getRatio()) {
+			int newWidth = (int)Math.round(original.getWidth());
+			int newHeight = (int)Math.round(original.getWidth() / aspectRatio.getRatio());
+			croppedDimension = new Dimension(newWidth, newHeight);
+		} else {
+			int newWidth = (int)Math.round(original.getHeight() * aspectRatio.getRatio());
+			int newHeight = (int)Math.round(original.getHeight());
+			croppedDimension = new Dimension(newWidth, newHeight);
+		}
+		return croppedDimension;
 	}
 
 }
