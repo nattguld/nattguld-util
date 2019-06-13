@@ -167,12 +167,6 @@ int digit = Luhn.generateChecksumDigit(String number);
 boolean valid = Luhn.isValid(String number);
 ```
 
-### Media
-```java
-File f = MediaOperations.pngToJpg(File f);
-File f = MediaOperations.resizeImage(File in, File out, int x, int y);
-```
-
 ### Text
 ```java
 TextUtil.copyToClipboard(String input);
