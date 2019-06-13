@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -157,7 +158,6 @@ public class FileOperations {
     	}
     	 try {
  			Files.copy(original.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
- 			
  			return target;
  			
  		} catch (IOException ex) {
@@ -166,6 +166,28 @@ public class FileOperations {
  			
  			return original;
  		}
+    }
+    
+    /**
+     * Renames a file.
+     * 
+     * @param original The original file.
+     * 
+     * @param renamedFile The renamed file.
+     * 
+     * @return The renamed file.
+     */
+    public static File rename(File original, File renamedFile) {
+    	Path originalPath = original.toPath();
+    	
+    	try {
+			Files.move(originalPath, originalPath.resolveSibling(renamedFile.getAbsolutePath()));
+			return renamedFile;
+			
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			return original;
+		}
     }
     
     /**
