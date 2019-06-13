@@ -8,6 +8,7 @@ General utility library handling:
 - Generics
 - Logging
 - Maths operations
+- Image Editing
 - Various other handy functionalities
 
 ## Examples
@@ -166,12 +167,6 @@ int digit = Luhn.generateChecksumDigit(String number);
 boolean valid = Luhn.isValid(String number);
 ```
 
-### Media
-```java
-File f = MediaOperations.pngToJpg(File f);
-File f = MediaOperations.resizeImage(File in, File out, int x, int y);
-```
-
 ### Text
 ```java
 TextUtil.copyToClipboard(String input);
@@ -182,5 +177,20 @@ String out = TextUtil.randomString(int minSize, int maxSize, TextSeed... seeds);
 String out = TextUtil.spintax(String input);
 boolean result = TextUtil.isLetters(String input);
 boolean result = TextUtil.isDigits(String input);
+```
+
+### Image Editing
+```java
+File out = MediaOperations.pngToJpg(File in);
+Dimension dim = MediaOperations.getScaledDimension(Dimension original, Dimension targetDim);
+Dimension dim = MediaOperations.getCroppedDimension(Dimension original, AspectRatio.EXAMPLE);
+
+
+ImageEditOperation op = new ImageResize(File in, File out, int width, int height, boolena keepAspectRatio);
+ImageEditOperation op = new ImageTransform(File in, File out, AspectRation ratio);
+ImageEditOperation op = new ImageWatermark(File in, File out, File watermark);
+ImageEditOperation op = new TextWatermark(File in, File out, ScreenPosition wmPos, Font font, float fontSize, int transparency, Color color, String text);
+
+File out = op.performOperation();
 
 ```
