@@ -12,11 +12,11 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 
 import com.nattguld.util.maths.Maths;
 
@@ -326,8 +326,10 @@ public class FileOperations {
     	for (File f : getFileTree(dir, true)) {
     		f.delete();
     	}
-    	for (File f : getFileTree(dir)) {
-    		f.delete();
+    	if (includeFolders) {
+    		for (File f : getFileTree(dir)) {
+    			f.delete();
+    		}
     	}
     }
     
@@ -351,23 +353,28 @@ public class FileOperations {
      * 
      * @return The files.
      */
-    public static Collection<File> getFileTree(File dir, boolean ignoreFolders) {
-        Set<File> fileTree = new HashSet<File>();
-        
-        if (dir == null || dir.listFiles() == null) {
-            return fileTree;
-        }
-        for (File entry : dir.listFiles()) {
-        	if (entry.isDirectory()) {
-        		fileTree.addAll(getFileTree(entry));
-        		
-        		if (ignoreFolders) {
+    public static List<File> getFileTree(File dir, boolean ignoreFolders) {
+    	List<File> files = new ArrayList<>();
+    	
+    	if (Objects.isNull(dir)) {
+    		return files;
+    	}
+    	File[] dirFiles = dir.listFiles();
+    	
+    	if (Objects.isNull(dirFiles) || dirFiles.length <= 0) {
+    		return files;
+    	}
+    	for (File f : dirFiles) {
+    		if (f.isDirectory()) {
+    			files.addAll(getFileTree(dir, ignoreFolders));
+    			
+    			if (ignoreFolders) {
         			continue;
         		}
-        	}
-        	fileTree.add(entry);
-        }
-        return fileTree;
+    		}
+    		files.add(f);
+    	}
+    	return files;
     }
 
 }
