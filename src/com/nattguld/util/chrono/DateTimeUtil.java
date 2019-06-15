@@ -240,10 +240,30 @@ public class DateTimeUtil {
 	 * 
 	 * @param format The format.
 	 * 
+	 * @param delimiter The delimiter.
+	 * 
 	 * @return The date-time.
 	 */
-	public static DateTime parseTime(String input, String format) {
-		return new DateTime(LocalTime.parse(input.replaceAll("\\D", "").trim(), DateTimeFormatter.ofPattern(format)).atDate(LocalDate.now()));
+	public static DateTime parseTime(String input, TimeFormat format, Delimiter delimiter) {
+		return parseTime(input, format, delimiter, Clock.HOUR_24);
+	}
+	
+	/**
+	 * Retrieves the time of a string for a given format.
+	 * 
+	 * @param input The time input.
+	 * 
+	 * @param format The format.
+	 * 
+	 * @param delimiter The delimiter.
+	 * 
+	 * @param clock The clock.
+	 * 
+	 * @return The date-time.
+	 */
+	public static DateTime parseTime(String input, TimeFormat format, Delimiter delimiter, Clock clock) {
+		return new DateTime(LocalTime.parse(formatDateTimeInput(input, delimiter)
+				, DateTimeFormatter.ofPattern(format.getFormat(clock, delimiter))).atDate(LocalDate.now()));
 	}
 	
 	/**
@@ -253,10 +273,13 @@ public class DateTimeUtil {
 	 * 
 	 * @param format The format.
 	 * 
+	 * @param delimiter The delimiter.
+	 * 
 	 * @return The date-time.
 	 */
-	public static DateTime parseDate(String input, String format) {
-		return new DateTime(LocalDate.parse(input.replaceAll("\\D", "").trim(), DateTimeFormatter.ofPattern(format)).atStartOfDay());
+	public static DateTime parseDate(String input, DateFormat format, Delimiter delimiter) {
+		return new DateTime(LocalDate.parse(formatDateTimeInput(input, delimiter)
+				, DateTimeFormatter.ofPattern(format.getFormat(delimiter))).atStartOfDay());
 	}
 	
 	/**
@@ -264,22 +287,85 @@ public class DateTimeUtil {
 	 * 
 	 * @param input The time input.
 	 * 
-	 * @param format The format.
+	 * @param dateFormat The date format.
+	 * 
+	 * @param dateDelimiter The date delimiter.
+	 * 
+	 * @param timeFormat The time format.
+	 * 
+	 * @param timeDelimiter The time delimiter.
+	 * 
+	 * @param dateTimeDelimiter The date time delimiter.
 	 * 
 	 * @return The date-time.
 	 */
-	public static DateTime parseDateTime(String input, String dateFormat, String timeFormat, Delimiter dateTimeDelimeter) {
+	public static DateTime parseDateTime(String input, DateFormat dateFormat, Delimiter dateDelimiter
+			, TimeFormat timeFormat, Delimiter timeDelimiter, Delimiter dateTimeDelimeter) {
+		return parseDateTime(input, dateFormat, dateDelimiter, timeFormat, timeDelimiter, Clock.HOUR_24, dateTimeDelimeter);
+	}
+	
+	/**
+	 * Retrieves the local-date-time of a string for a given format.
+	 * 
+	 * @param input The time input.
+	 * 
+	 * @param dateFormat The date format.
+	 * 
+	 * @param dateDelimiter The date delimiter.
+	 * 
+	 * @param timeFormat The time format.
+	 * 
+	 * @param timeDelimiter The time delimiter.
+	 * 
+	 * @param clock The clock.
+	 * 
+	 * @param dateTimeDelimiter The date time delimiter.
+	 * 
+	 * @return The date-time.
+	 */
+	public static DateTime parseDateTime(String input, DateFormat dateFormat, Delimiter dateDelimiter
+			, TimeFormat timeFormat, Delimiter timeDelimiter, Clock clock, Delimiter dateTimeDelimeter) {
 		String[] parts = input.split(dateTimeDelimeter.getCharacter());
 		
 		if (Objects.isNull(parts) || parts.length <= 0) {
 			System.err.println("Unable to parse date time for input: " + input);
 			return new DateTime(LocalDateTime.parse(input));
 		}
-		String time = parts[0].replaceAll("\\D", "").trim();
-		String date = parts[1].replaceAll("\\D", "").trim();
+		String time = formatDateTimeInput(parts[0], dateDelimiter);
+		String date = formatDateTimeInput(parts[1], timeDelimiter);
 		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat + dateTimeDelimeter.getCharacter() + timeFormat);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat.getFormat(dateDelimiter) 
+				+ dateTimeDelimeter.getCharacter() + timeFormat.getFormat(clock, timeDelimiter));
 		return new DateTime(LocalDateTime.parse(date + dateTimeDelimeter.getCharacter() + time, formatter));
+	}
+	
+	/**
+	 * Formats date-time input into a parsable string.
+	 * 
+	 * @param input The input.
+	 * 
+	 * @param delimiter The delimiter.
+	 * 
+	 * @return The formatted parsable string.
+	 */
+	private static String formatDateTimeInput(String input, Delimiter delimiter) {
+		input = input.replaceAll("[A-Za-z]", "").trim();
+		
+		StringBuilder sb = new StringBuilder();
+		
+		for (String part : input.split(delimiter.getCharacter())) {
+			if (part.length() == 1) {
+				sb.append("0");
+			}
+			sb.append(part);
+			sb.append(delimiter.getCharacter());
+		}
+		String formatted = sb.toString();
+		
+		if (formatted.endsWith(delimiter.getCharacter())) {
+			formatted = formatted.substring(0, formatted.length() - 1);
+		}
+		return formatted;
 	}
 	
     /**

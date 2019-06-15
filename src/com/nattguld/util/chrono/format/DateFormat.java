@@ -42,8 +42,8 @@ public enum DateFormat {
 	 * 
 	 * @return The format.
 	 */
-	public String getFormat(Delimiter delimeter) {
-		return format.replace("-", delimeter.getCharacter());
+	public String getFormat(Delimiter delimiter) {
+		return format.replace("-", delimiter.getCharacter());
 	}
 	
 	@Override
