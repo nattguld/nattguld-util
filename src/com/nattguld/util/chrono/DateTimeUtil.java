@@ -240,10 +240,10 @@ public class DateTimeUtil {
 	 * 
 	 * @param format The format.
 	 * 
-	 * @return The local-date-time.
+	 * @return The date-time.
 	 */
-	public static LocalDateTime parseTime(String input, String format) {
-		return LocalTime.parse(input.replaceAll("\\p", "").trim(), DateTimeFormatter.ofPattern(format)).atDate(LocalDate.now());
+	public static DateTime parseTime(String input, String format) {
+		return new DateTime(LocalTime.parse(input.replaceAll("\\D", "").trim(), DateTimeFormatter.ofPattern(format)).atDate(LocalDate.now()));
 	}
 	
 	/**
@@ -253,10 +253,10 @@ public class DateTimeUtil {
 	 * 
 	 * @param format The format.
 	 * 
-	 * @return The local-date-time.
+	 * @return The date-time.
 	 */
-	public static LocalDateTime parseDate(String input, String format) {
-		return LocalDate.parse(input.replaceAll("\\p", "").trim(), DateTimeFormatter.ofPattern(format)).atStartOfDay();
+	public static DateTime parseDate(String input, String format) {
+		return new DateTime(LocalDate.parse(input.replaceAll("\\D", "").trim(), DateTimeFormatter.ofPattern(format)).atStartOfDay());
 	}
 	
 	/**
@@ -266,20 +266,20 @@ public class DateTimeUtil {
 	 * 
 	 * @param format The format.
 	 * 
-	 * @return The local-date-time.
+	 * @return The date-time.
 	 */
-	public static LocalDateTime parseDateTime(String input, String dateFormat, String timeFormat, Delimiter dateTimeDelimeter) {
+	public static DateTime parseDateTime(String input, String dateFormat, String timeFormat, Delimiter dateTimeDelimeter) {
 		String[] parts = input.split(dateTimeDelimeter.getCharacter());
 		
 		if (Objects.isNull(parts) || parts.length <= 0) {
 			System.err.println("Unable to parse date time for input: " + input);
-			return LocalDateTime.parse(input);
+			return new DateTime(LocalDateTime.parse(input));
 		}
 		String time = parts[0].replaceAll("\\D", "").trim();
 		String date = parts[1].replaceAll("\\D", "").trim();
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat + dateTimeDelimeter.getCharacter() + timeFormat);
-		return LocalDateTime.parse(date + dateTimeDelimeter.getCharacter() + time, formatter);
+		return new DateTime(LocalDateTime.parse(date + dateTimeDelimeter.getCharacter() + time, formatter));
 	}
 	
     /**
