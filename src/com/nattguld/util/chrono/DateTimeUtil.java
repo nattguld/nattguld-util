@@ -275,8 +275,8 @@ public class DateTimeUtil {
 			System.err.println("Unable to parse date time for input: " + input);
 			return LocalDateTime.parse(input);
 		}
-		String time = parts[0].replaceAll("\\p", "").trim();
-		String date = parts[1].replaceAll("\\p", "").trim();
+		String time = parts[0].replaceAll("\\D", "").trim();
+		String date = parts[1].replaceAll("\\D", "").trim();
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat + dateTimeDelimeter.getCharacter() + timeFormat);
 		return LocalDateTime.parse(date + dateTimeDelimeter.getCharacter() + time, formatter);
