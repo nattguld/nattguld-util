@@ -95,7 +95,7 @@ public class Logger {
 		if (debug) {
 			ex.printStackTrace();
 		}
-		try (PrintWriter pw = new PrintWriter(new File(baseDir + "/debug/exceptions/" + DateTimeUtil.getCurrentDateTime() + ".txt"))) {
+		try (PrintWriter pw = new PrintWriter(new File(baseDir + "/debug/exceptions/" + FileOperations.getSafeFileName(DateTimeUtil.getCurrentDateTime()) + ".txt"))) {
 		    ex.printStackTrace(pw);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

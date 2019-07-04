@@ -1,6 +1,9 @@
 package com.nattguld.util.maths;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * 
@@ -10,6 +13,30 @@ import java.util.Random;
 
 public class Maths {
 	
+	
+	/**
+	 * Retrieves a universal unique ID.
+	 * 
+	 * @return The unique ID.
+	 */
+	public static String getUniqueId() {
+		return String.valueOf(UUID.randomUUID());
+	}
+	
+	/**
+	 * Formats a double with a given amount of decimals.
+	 * 
+	 * @param value The value.
+	 * 
+	 * @param decimals The decimals.
+	 * 
+	 * @return The formatted double.
+	 */
+	public static double formatDoubleDecimals(double value, int decimals) {
+		BigDecimal bd = new BigDecimal(value);
+		bd = bd.setScale(decimals, RoundingMode.HALF_UP);
+		return bd.doubleValue();
+	}
 
 	/**
 	 * Parses a string to a float value.
@@ -194,6 +221,9 @@ public class Maths {
      * @return The random integer.
      */
     public static int random(int min, int max) {
+    	if (min == max) {
+    		return min;
+    	}
     	if (max < min) {
     		System.err.println("Range can't be less than minimum");
     		return 0;

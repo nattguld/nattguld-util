@@ -38,7 +38,7 @@ public class FileOperations {
 	 * @return The safe file name notation.
 	 */
 	public static String getSafeFileName(String fileName) {
-		return fileName.replace(" ", "_").toLowerCase();
+		return fileName.replace(" ", "_").replace(":", ".").replaceAll("[\\W&&[^-]]+", ".").toLowerCase();
 	}
 	
 	/**

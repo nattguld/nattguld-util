@@ -114,6 +114,9 @@ public class TextUtil {
      * @return The capitalized string.
      */
     public static String capitalize(String input) {
+    	if (input.isEmpty()) {
+    		return input;
+    	}
     	String prepared = input.toLowerCase();
     	return prepared.substring(0, 1).toUpperCase() + prepared.substring(1);
     }
@@ -128,6 +131,9 @@ public class TextUtil {
      * @return The capitalized string.
      */
     public static String capitalize(String input, String delimeter) {
+    	if (input.isEmpty()) {
+    		return input;
+    	}
     	String[] parts = input.split(delimeter);
     	StringBuilder sb = new StringBuilder();
 	

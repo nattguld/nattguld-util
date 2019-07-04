@@ -16,6 +16,11 @@ public class AudioManager {
 	 */
 	private static Deque<Audio> audioDeque = new ArrayDeque<>();
 	
+	/**
+	 * Whether audio is disabled or not.
+	 */
+	private static boolean disabled;
+	
 	
 	/**
 	 * Submits new audio.
@@ -37,6 +42,9 @@ public class AudioManager {
 		}
 		final Audio current = audioDeque.poll();
 		
+		if (disabled) {
+			return;
+		}
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -44,6 +52,29 @@ public class AudioManager {
 				updateDeque();
 			}
 		}).start();
+	}
+	
+	/**
+	 * Enables audio.
+	 */
+	public static void enable() {
+		disabled = false;
+	}
+	
+	/**
+	 * Disables audio.
+	 */
+	public static void disable() {
+		disabled = true;
+	}
+	
+	/**
+	 * Retrieves whether audio is disabled or not.
+	 * 
+	 * @return The result.
+	 */
+	public static boolean isDisabled() {
+		return disabled;
 	}
 
 }
