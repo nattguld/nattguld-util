@@ -121,13 +121,7 @@ public class Converter {
     		simplify = part.trim();
     		break;
     	}
-		if (simplify.contains(".")) {
-			double d = Double.parseDouble(simplify) * multiplier;
-			return d;
-		} else {
-			int i = Integer.parseInt(simplify) * multiplier;
-			return i;
-		}
+		return (simplify.contains(".") ? Double.parseDouble(simplify) : Integer.parseInt(simplify)) * multiplier;
     }
 
 }

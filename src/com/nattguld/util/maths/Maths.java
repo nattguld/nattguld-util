@@ -33,6 +33,9 @@ public class Maths {
 	 * @return The formatted double.
 	 */
 	public static double formatDoubleDecimals(double value, int decimals) {
+		if (value == 0d || Double.isNaN(value)) {
+			return 0d;
+		}
 		BigDecimal bd = new BigDecimal(value);
 		bd = bd.setScale(decimals, RoundingMode.HALF_UP);
 		return bd.doubleValue();
@@ -51,7 +54,6 @@ public class Maths {
 		try {
 			return Float.parseFloat(value);
 		} catch (NumberFormatException ex) {
-			ex.printStackTrace();
 			return defaultValue;
 		}
 	}
@@ -69,7 +71,6 @@ public class Maths {
 		try {
 			return Double.parseDouble(value);
 		} catch (NumberFormatException ex) {
-			ex.printStackTrace();
 			return defaultValue;
 		}
 	}
@@ -87,7 +88,6 @@ public class Maths {
 		try {
 			return Integer.parseInt(value);
 		} catch (NumberFormatException ex) {
-			ex.printStackTrace();
 			return defaultValue;
 		}
 	}
@@ -105,7 +105,6 @@ public class Maths {
 		try {
 			return Long.parseLong(value);
 		} catch (NumberFormatException ex) {
-			ex.printStackTrace();
 			return defaultValue;
 		}
 	}

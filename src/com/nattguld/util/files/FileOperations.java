@@ -14,7 +14,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -271,6 +270,33 @@ public class FileOperations {
     	return lines;
     }
     
+    /**
+     * Reads the first line from a given file and removes it.
+     * 
+     * @param filePath The file path.
+     * 
+     * @return The first line.
+     */
+    public static String readAndRemoveFirstLine(String filePath) {
+    	File f = new File(filePath);
+    	
+    	if (!f.exists()) {
+    		return null;
+    	}
+    	List<String> lines = read(filePath);
+    	
+    	if (Objects.isNull(lines) || lines.isEmpty()) {
+    		return null;
+    	}
+    	String firstLine = lines.get(0);
+    	lines.remove(firstLine);
+    	
+    	f.delete();
+    	FileOperations.write(filePath, lines, true);
+    	
+    	return firstLine;
+    }
+    
 	/**
      * Writes a file.
      * 
@@ -333,8 +359,8 @@ public class FileOperations {
      * 
      * @param dir The directory.
      */
-    public static void deleteAllFiles(File dir) {
-    	deleteAllFiles(dir, true);
+    public static void deleteFiles(File dir) {
+    	deleteFiles(dir, true);
     }
     
     /**
@@ -344,12 +370,12 @@ public class FileOperations {
      * 
      * @param includeFolders Whether to include folders or not.
      */
-    public static void deleteAllFiles(File dir, boolean includeFolders) {
-    	for (File f : getFileTree(dir, true)) {
+    public static void deleteFiles(File dir, boolean includeFolders) {
+    	for (File f : fetchFileTree(dir, true)) {
     		f.delete();
     	}
     	if (includeFolders) {
-    		for (File f : getFileTree(dir)) {
+    		for (File f : fetchFileTree(dir)) {
     			f.delete();
     		}
     	}
@@ -362,8 +388,8 @@ public class FileOperations {
      * 
      * @return The files.
      */
-    public static Collection<File> getFileTree(File dir) {
-        return getFileTree(dir, false);
+    public static List<File> fetchFileTree(File dir) {
+        return fetchFileTree(dir, false);
     }
     
     /**
@@ -375,10 +401,10 @@ public class FileOperations {
      * 
      * @return The files.
      */
-    public static List<File> getFileTree(File dir, boolean ignoreFolders) {
+    public static List<File> fetchFileTree(File dir, boolean ignoreFolders) {
     	List<File> files = new ArrayList<>();
     	
-    	if (Objects.isNull(dir)) {
+    	if (Objects.isNull(dir) || !dir.exists()) {
     		return files;
     	}
     	File[] dirFiles = dir.listFiles();
@@ -388,7 +414,7 @@ public class FileOperations {
     	}
     	for (File f : dirFiles) {
     		if (f.isDirectory()) {
-    			files.addAll(getFileTree(dir, ignoreFolders));
+    			files.addAll(fetchFileTree(f, ignoreFolders));
     			
     			if (ignoreFolders) {
         			continue;

@@ -4,6 +4,7 @@ import java.text.DateFormatSymbols;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Objects;
@@ -47,6 +48,17 @@ public class DateTimeUtil {
 	 */
 	public static String getCurrentDateTime() {
 		return formatDateTime(new DateTime().getLocalDateTime());
+	}
+	
+	/**
+	 * Retrieves the current date time in ISO format.
+	 * 
+	 * @return The ISO date time.
+	 */
+	public static String getCurrentISODateTime() {
+		LocalDateTime ldt = LocalDateTime.now(ZoneOffset.UTC);
+		String str = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(ldt);
+		return str + "Z";
 	}
 	
 	/**

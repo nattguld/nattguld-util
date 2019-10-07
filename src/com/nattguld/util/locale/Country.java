@@ -1320,7 +1320,18 @@ public enum Country {
      * @return The network code.
      */
     public String getNetworkCode(Language language) {
-    	return language.getCode() + "-" + getCode() + "," + language.getCode() + ";q=0.9";
+    	return getLocaleCode(language) + "," + language.getCode() + ";q=0.9";
+    }
+    
+    /**
+     * Retrieves the locale code.
+     * 
+     * @param language The language.
+     * 
+     * @return The code.
+     */
+    public String getLocaleCode(Language language) {
+    	return language.getCode() + "-" + getCode();
     }
     
     /**

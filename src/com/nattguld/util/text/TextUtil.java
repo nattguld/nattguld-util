@@ -3,6 +3,7 @@ package com.nattguld.util.text;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -19,6 +20,11 @@ import com.nattguld.util.maths.Maths;
  */
 
 public class TextUtil {
+	
+	/**
+     * Regex for url's.
+     */
+    public static final String URL_REGEX = "((https?|ftp|gopher|telnet|file):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*[-a-zA-Z0-9+&@#/%=~_|])";
 	
 	/**
 	 * Represents a tab character.
@@ -75,6 +81,25 @@ public class TextUtil {
 	 */
 	public static String getAsNonNull(String input) {
 		return Objects.isNull(input) ? "" : input;
+	}
+	
+	/**
+	 * Extracts url's from a given input.
+	 * 
+	 * @param input The input.
+	 * 
+	 * @return The extracted urls.
+	 */
+	public static List<String> extractUrls(String input) {
+		List<String> extractedUrls = new ArrayList<>();
+		
+		Pattern pattern = Pattern.compile(URL_REGEX, Pattern.CASE_INSENSITIVE);
+		Matcher urlMatcher = pattern.matcher(input);
+		
+		while (urlMatcher.find()) {
+			extractedUrls.add(input.substring(urlMatcher.start(0), urlMatcher.end(0)));
+		}
+		return extractedUrls;
 	}
 	
 	/**

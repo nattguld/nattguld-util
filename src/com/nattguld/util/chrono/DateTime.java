@@ -32,7 +32,7 @@ public class DateTime {
 	 * Creates a new default date time instance.
 	 */
 	public DateTime() {
-		this(System.currentTimeMillis(), 0);
+		this(System.currentTimeMillis());
 	}
 	
 	/**
