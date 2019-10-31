@@ -334,7 +334,7 @@ public class TextUtil {
 	 * 
 	 * @return The result.
 	 */
-	public static boolean isdigits(String input) {
+	public static boolean isDigits(String input) {
 		for (char c : input.toCharArray()) {
 			if (!Character.isDigit(c)) {
 				return false;

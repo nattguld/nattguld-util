@@ -47,9 +47,12 @@ public abstract class ObjectPool<T extends Object> {
 	 * @return The element.
 	 */
 	protected abstract T createElement();
+
 	
 	/**
 	 * Retrieves an element to use.
+	 * 
+	 * @param force Whether to force an element if no room is available.
 	 * 
 	 * @return The element.
 	 */
@@ -57,7 +60,7 @@ public abstract class ObjectPool<T extends Object> {
 		T element = callIdleElement();
 		
 		if (Objects.isNull(element)) {
-			if (getPoolSize() >= maxPoolSize) {
+			if (!hasRoom()) {
 				System.out.println("[" + getClass().getSimpleName() + "]: All pool elements currently in use, trying again in 10 seconds");
 				Misc.sleep(10 * 1000);
 				return getElement();
@@ -98,7 +101,7 @@ public abstract class ObjectPool<T extends Object> {
 		}
 		activePool.remove(element);
 		
-		if (getPoolSize() < maxPoolSize) {
+		if (hasRoom()) {
 			idlePool.add(element);
 		}
 		return this;
@@ -150,6 +153,25 @@ public abstract class ObjectPool<T extends Object> {
 	 */
 	public int getPoolSize() {
 		return getIdlePoolSize() + getActivePoolSize();
+	}
+	
+	/**
+	 * Retrieves whether there's room in the pool for new elements.
+	 * 
+	 * @return The result.
+	 */
+	public boolean hasRoom() {
+		return getMaxPoolSize() < 1 || getPoolSize() < getMaxPoolSize();
+	}
+	
+	/**
+	 * Clears the idles.
+	 * 
+	 * @return The pool.
+	 */
+	public ObjectPool<T> clearIdles() {
+		idlePool.clear();
+		return this;
 	}
 	
 	/**

@@ -5,11 +5,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -197,23 +195,11 @@ public class FileOperations {
      * @return The content.
      */
     public static String getContent(String path) {
-    	File f = new File(path);
-    	
-    	if (!f.exists()) {
-    		return "";
-    	}
+    	List<String> lines = read(path);
     	StringBuilder sb = new StringBuilder();
-    	String line = null;
     	
-    	try (BufferedReader br = new BufferedReader(new FileReader(f))) {
-    		while ((line = br.readLine()) != null) {
-    			if (line != null) {
-    				sb.append(line);
-    			}
-    		}
-    	} catch (IOException ex) {
-    		ex.printStackTrace();
-    		System.err.println("Failed to read " + path);
+    	for (String line : lines) {
+    		sb.append(line);
     	}
     	return sb.toString();
     }
@@ -232,6 +218,21 @@ public class FileOperations {
     	if (!f.exists()) {
     		return lines;
     	}
+    	try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(f), "UTF-8"))) {
+    		String line = null;
+    		
+    		while ((line = br.readLine()) != null) {
+    			String strip = line.trim();
+	       		
+				if (!strip.isEmpty()) {
+					lines.add(strip);
+				}
+    		}
+    	} catch (IOException ex) {
+    		ex.printStackTrace();
+    		System.err.println("Failed to read " + path);
+    	}
+    	/*
     	try (FileInputStream fis = new FileInputStream(f)) {
     		try (InputStreamReader isr = new InputStreamReader(fis, "UTF-8")) {
     			try (BufferedReader br = new BufferedReader(isr)) {
@@ -250,23 +251,7 @@ public class FileOperations {
 			e1.printStackTrace();
 		} catch (IOException e1) {
 			e1.printStackTrace();
-		}/*
-    	String line = null;
-
-    	try (BufferedReader br = new BufferedReader(new FileReader(f))) {
-    		while ((line = br.readLine()) != null) {
-    			if (line != null) {
-    				String strip = line.trim();
-   		
-    				if (!strip.isEmpty()) {
-    					lines.add(strip);
-    				}
-    			}
-    		}
-    	} catch (IOException ex) {
-    		ex.printStackTrace();
-    		System.err.println("Failed to read " + path);
-    	}*/
+		}*/
     	return lines;
     }
     
@@ -333,7 +318,7 @@ public class FileOperations {
      * @param append Whether the lines should be appended to a file or not.
      */
     public static void write(String path, String[] lines, boolean append) {
-    	try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(path, append), StandardCharsets.UTF_8)) {
+    	try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(path, append), "UTF-8")) {
     		for (String line : lines) {
     			writer.write(line);
     			writer.write(System.lineSeparator());
