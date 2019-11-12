@@ -28,6 +28,25 @@ public class FileOperations {
 	
 	
 	/**
+	 * Builds a file from a given path and retrieves it if it exists.
+	 * 
+	 * @param input the input path.
+	 * 
+	 * @return The file.
+	 */
+	public static File buildFile(String input) {
+		if (Objects.isNull(input)) {
+			return null;
+		}
+		File f = new File(input);
+		
+		if (!f.exists()) {
+			return null;
+		}
+		return f;
+	}
+	
+	/**
 	 * Retrieves a safe file name notation.
 	 * 
 	 * @param fileName The file name.
