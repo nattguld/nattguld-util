@@ -159,5 +159,39 @@ public enum Language {
 	public String toString() {
 		return getName();
 	}
+	
+	/**
+	 * Retrieves a language by it's code.
+	 * 
+	 * @param code The code.
+	 * 
+	 * @return The language.
+	 */
+	public static Language getByCode(String code) {
+		for (Language lang : values()) {
+			if (lang.getCode().equalsIgnoreCase(code)) {
+				return lang;
+			}
+		}
+		System.err.println("No language found for code: " + code);
+		return Language.ENGLISH;
+	}
+	
+	/**
+	 * Retrieves a language by it's name.
+	 * 
+	 * @param name The name.
+	 * 
+	 * @return The language.
+	 */
+	public static Language getByName(String name) {
+		for (Language lang : values()) {
+			if (lang.getName().equalsIgnoreCase(name)) {
+				return lang;
+			}
+		}
+		System.err.println("No language found for name: " + name);
+		return Language.ENGLISH;
+	}
 
 }

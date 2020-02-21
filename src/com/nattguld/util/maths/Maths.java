@@ -2,7 +2,6 @@ package com.nattguld.util.maths;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -196,41 +195,7 @@ public class Maths {
      * @return The random integer.
      */
     public static int random(int range) {
-    	return random(0, range);
-    }
-    
-    /**
-     * Retrieves a random integer up to a specific range.
-     * 
-     * @param range The range.
-     * 
-     * @return The random integer.
-     */
-    public static int random(Range range) {
-    	return random(range.getMin(), range.getMax());
-    }
-    
-    /**
-     * Retrieves a random integer up to a specific range.
-     * 
-     * @param min The minimum.
-     * 
-     * @param max The max.
-     * 
-     * @return The random integer.
-     */
-    public static int random(int min, int max) {
-    	if (min == max) {
-    		return min;
-    	}
-    	if (max < min) {
-    		System.err.println("Range can't be less than minimum");
-    		return 0;
-    	}
-    	if (min == max) {
-    		return min;
-    	}
-    	return min + new Random().nextInt(max - min);
+    	return new Range(0, range).getRandom();
     }
 
 }

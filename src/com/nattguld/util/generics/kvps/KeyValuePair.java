@@ -6,7 +6,7 @@ package com.nattguld.util.generics.kvps;
  *
  */
 
-public abstract class KeyValuePair<T, V> {
+public class KeyValuePair<T, V> {
 	
 	/**
 	 * The key.

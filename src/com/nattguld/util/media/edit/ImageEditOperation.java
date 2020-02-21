@@ -67,6 +67,9 @@ public abstract class ImageEditOperation extends Operation<File> {
 
 			BufferedImage modifiedImage = edit(bInputImg, originalDim, channelType);
 			
+			if (modifiedImage == bInputImg) {
+				return in;
+			}
 			ImageIO.write(modifiedImage, extension, out);
 			
 			return out;

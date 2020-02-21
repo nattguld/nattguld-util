@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Formatter;
 
 import javax.imageio.ImageIO;
 
@@ -43,13 +44,36 @@ public class Converter {
 	}
 	
     /**
+     * Converts a byte array to a hex.
+     * 
+     * @param bytes The butes.
+     * 
+     * @return The hex.
+     */
+    public static String bytesToHex(byte[] bytes) {
+    	/*StringBuilder sb = new StringBuilder();
+    	
+    	for (byte b : bytes) {
+    		sb.append(Integer.toString(b, 16));
+        }
+    	return sb.toString();*/
+    	try (Formatter formatter = new Formatter()) {
+    		for (byte b : bytes) {
+    			formatter.format("%02x", b);
+    		}
+    		String result = formatter.toString();
+    		return result.toUpperCase();
+    	}
+    }
+    
+    /**
      * Converts a byte array to a hex string.
      * 
      * @param bytes The butes.
      * 
      * @return The hex string.
      */
-    public static String bytesToHex(byte[] bytes) {
+    public static String bytesToHexString(byte[] bytes) {
     	StringBuilder sb = new StringBuilder();
     	
     	for (byte b : bytes) {

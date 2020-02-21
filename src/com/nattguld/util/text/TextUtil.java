@@ -73,6 +73,17 @@ public class TextUtil {
 	
 	
 	/**
+	 * Zerofies an integer by adding a '0' prefix when it's below 10.
+	 * 
+	 * @param value The value to zerofy.
+	 * 
+	 * @return The zerofied number as string.
+	 */
+	public static String zerofyInteger(int value) {
+		return value < 10 ? ("0" + value) : Integer.toString(value);
+	}
+	
+	/**
 	 * Retrieves a string avoiding it to be null.
 	 * 
 	 * @param input The input.

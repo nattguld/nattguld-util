@@ -66,6 +66,9 @@ public class ImageResize extends ImageEditOperation {
 
 	@Override
 	protected BufferedImage edit(BufferedImage bIn, Dimension originalDim, int channelType) throws Exception {
+		if (originalDim.getHeight() == targetDimension.getHeight() && originalDim.getWidth() == targetDimension.getWidth()) {
+			return bIn;
+		}
 		Dimension resizedDim = keepAspectRatio ? MediaOperations.getScaledDimension(originalDim, targetDimension) : targetDimension;
 		
 		BufferedImage resizedImg = new BufferedImage((int)resizedDim.getWidth(), (int)resizedDim.getHeight(), channelType);

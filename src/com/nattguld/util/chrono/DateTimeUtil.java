@@ -4,6 +4,7 @@ import java.text.DateFormatSymbols;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -349,6 +350,20 @@ public class DateTimeUtil {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat.getFormat(dateDelimiter) 
 				+ dateTimeDelimeter.getCharacter() + timeFormat.getFormat(clock, timeDelimiter));
 		return new DateTime(LocalDateTime.parse(date + dateTimeDelimeter.getCharacter() + time, formatter));
+	}
+	
+	/**
+	 * Formats an ISO date-time into a date time object.
+	 * 
+	 * @param input The input.
+	 * 
+	 * @return The date time.
+	 */
+	public static DateTime parseISODateTime(String input) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+		        .withZone(ZoneId.of("UTC"));
+		LocalDateTime ldt = LocalDateTime.parse(input, formatter);
+		return new DateTime(ldt);
 	}
 	
 	/**

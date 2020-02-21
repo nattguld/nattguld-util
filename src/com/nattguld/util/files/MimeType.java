@@ -50,7 +50,8 @@ public enum MimeType {
 	XML("application/xml", ".xml"),
 	ZIP("application/zip", ".zip"),
 	MP4("video/mp4", ".mp4"),
-	MOV("video/quicktime", ".mov");
+	MOV("video/quicktime", ".mov"),
+	UNKNOWN("unknown", "");
 	
 	
 	/**
@@ -164,7 +165,7 @@ public enum MimeType {
 			}
 		}
 		System.err.println("Failed to find mime type for file extension: " + fileExtension);
-		return null;
+		return MimeType.UNKNOWN;
 	}
 	
 	/**
@@ -183,7 +184,7 @@ public enum MimeType {
 			}
 		}
 		System.err.println("Failed to find mime type for name: " + name);
-		return null;
+		return MimeType.UNKNOWN;
 	}
 
 }

@@ -1,6 +1,6 @@
 package com.nattguld.util.maths;
 
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * 
@@ -8,17 +8,17 @@ import java.util.Random;
  *
  */
 
-public class Range {
+public class LongRange {
 	
 	/**
 	 * The minimum range.
 	 */
-	private final int minimum;
+	private final long minimum;
 	
 	/**
 	 * The maximum range.
 	 */
-	private final int maximum;
+	private final long maximum;
 	
 	
 	/**
@@ -28,7 +28,7 @@ public class Range {
 	 * 
 	 * @param maximum The maximum range.
 	 */
-	public Range(int minimum, int maximum) {
+	public LongRange(long minimum, long maximum) {
 		this.minimum = minimum;
 		this.maximum = maximum;
 	}
@@ -40,7 +40,7 @@ public class Range {
 	 * 
 	 * @return The result.
 	 */
-	public boolean isInRange(int value) {
+	public boolean isInRange(long value) {
 		return value >= getMin() && value <= getMax();
 	}
 	
@@ -49,7 +49,7 @@ public class Range {
 	 * 
 	 * @return The random value.
 	 */
-	public int getRandom() {
+	public long getRandom() {
 		if (getMin() == getMax()) {
     		return getMin();
     	}
@@ -57,7 +57,7 @@ public class Range {
     		System.err.println("Range can't be less than minimum [Min: " + getMin() + "][Max: " + getMax() + "]");
     		return getMax();
     	}
-    	return getMin() + new Random().nextInt(getMax() - getMin());
+    	return getMin() + ThreadLocalRandom.current().nextLong(getMax() - getMin());
 	}
 	
 	/**
@@ -65,7 +65,7 @@ public class Range {
 	 * 
 	 * @return The minimum range.
 	 */
-	public int getMin() {
+	public long getMin() {
 		return minimum;
 	}
 	
@@ -74,13 +74,13 @@ public class Range {
 	 * 
 	 * @return The maximum range.
 	 */
-	public int getMax() {
+	public long getMax() {
 		return maximum;
 	}
 	
 	@Override
 	public String toString() {
-		return "Range (" + getMin() + ", " + getMax() + ")";
+		return "LongRange (" + getMin() + ", " + getMax() + ")";
 	}
 
 }
